@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: False
       matrix:
-        repo: ['development', 'testing', 'release']
+        repo: ['release']
     steps:
     - uses: actions/checkout@v2
 
@@ -31,8 +31,8 @@ jobs:
         REPO: ${{ matrix.repo }}
         TIMESTAMP: ${{ needs.make-date-tag.outputs.dtag }}
       run: |
-        docker_repo=${GITHUB_REPOSITORY/opensciencegrid\/docker-/opensciencegrid/}
-        tag_list=$docker_repo:$REPO,$docker_repo:$REPO-$TIMESTAMP
+        docker_repo=${GITHUB_REPOSITORY/brianhlin\/docker-/brianhlin/}
+        tag_list=hub.opensciencegrid.org/$docker_repo:$REPO,hub.opensciencegrid.org/$docker_repo:$REPO-$TIMESTAMP
         echo "::set-output name=taglist::$tag_list"
 
     - run: ls -lR .
